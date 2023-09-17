@@ -1,30 +1,17 @@
 import { Client, Events } from 'discord.js';
-import { commands } from './commands';
 import { config } from './config';
-import { deployCommands } from './deploy-commands';
+import { events } from './events';
 
 const client = new Client({
   intents: ['Guilds', 'GuildMessages', 'DirectMessages'],
 });
 
-client.once('ready', () => {
-  console.log('Discord bot is ready! �');
-});
+const eventKeys = Object.keys(events);
+for (const key of eventKeys) {
+	const event = events[key];
 
-client.on(Events.GuildCreate, async (guild) => {
-	/**
-	 * Deploy slash commands upon joining a server.
-	 */
-  await deployCommands({ guildId: guild.id });
-});
-
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isCommand()) return;
-
-  const { commandName } = interaction;
-  if (commands[commandName as keyof typeof commands]) {
-    commands[commandName as keyof typeof commands].execute(interaction, client);
-  }
-});
+	if (event.once) client.once(event.name, (...args) => event.execute(...args));
+	else client.on(event.name, (...args) => event.execute(...args));
+}
 
 client.login(config.DISCORD_TOKEN);
