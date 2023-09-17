@@ -1,4 +1,4 @@
-import { Client, CommandInteraction, EmbedBuilder, SlashCommandBuilder, TextBasedChannelFields } from 'discord.js';
+import { Client, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 
 export const data = new SlashCommandBuilder()
   .setName('ping')
@@ -7,28 +7,24 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction: CommandInteraction, client: Client) {
   const exampleEmbed = new EmbedBuilder()
     .setColor(0x0099FF)
-    .setTitle('Some title')
-    .setURL('https://discord.js.org/')
-    .setAuthor({ name: 'Some name', iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-    .setDescription('Some description here')
-    .setThumbnail('https://i.imgur.com/AfFp7pu.png')
-    .addFields(
-      { name: 'Regular field title', value: 'Some value here' },
-      { name: '\u200B', value: '\u200B' },
-      { name: 'Inline field title', value: 'Some value here', inline: true },
-      { name: 'Inline field title', value: 'Some value here', inline: true },
-    )
-    .addFields({ name: 'Inline field title', value: 'Some value here', inline: true })
-    .setImage('https://i.imgur.com/AfFp7pu.png')
-    .setTimestamp()
-    .setFooter({ text: 'Some footer text here', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
+    .setDescription(`
+    Welcome to the Crowned Application Server!
+
+    We are excited to that you are interested in joining our guild.
+    Our community is comprised of a variety of players from casual to sweaty and from newbies to end game players.
+    We are looking for potential members at nearly all stages of the game to join us.
+
+    To get started, click the "Apply" button below.
+    We will only consider applicants who have a Discord account that is at least two (2) years of age.
+
+    Thank you.
+    `)
 
   try {
-    const channel = await client.channels.fetch(interaction.channelId) as TextBasedChannelFields;
-    await channel.send({ embeds: [exampleEmbed] });
-    await interaction.reply('Command succeeded.');
+    await interaction.channel?.send({ embeds: [exampleEmbed] });
+    await interaction.reply('Pong!');
+    await interaction.deleteReply();
   } catch (err) {
-    console.log(err);
-    await interaction.reply('Command failed at channel retrieval step.');
+    await interaction.reply('Command failed.');
   }
 }

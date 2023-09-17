@@ -12,13 +12,14 @@ client.once('ready', () => {
 });
 
 client.on(Events.GuildCreate, async (guild) => {
+	console.log('Commands deploying!');
   await deployCommands({ guildId: guild.id });
+	console.log('Commands deployed!');
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isCommand()) {
-    return;
-  }
+  if (!interaction.isCommand()) return;
+	
   const { commandName } = interaction;
   if (commands[commandName as keyof typeof commands]) {
     commands[commandName as keyof typeof commands].execute(interaction, client);
