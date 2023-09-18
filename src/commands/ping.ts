@@ -7,6 +7,7 @@ import {
 	PermissionFlagsBits,
 	SlashCommandBuilder,
 } from 'discord.js';
+import { BUTTON_INTERACTION_IDS } from '../types';
 
 export const data = new SlashCommandBuilder()
 	.setName('ping')
@@ -26,7 +27,7 @@ export async function execute(interaction: CommandInteraction) {
 		);
 	}
 
-	const exampleEmbed = new EmbedBuilder()
+	const welcomeEmbed = new EmbedBuilder()
 		.setColor(0x0099ff)
 		.setDescription(`
 		Welcome to the Crowned Application Server!
@@ -43,7 +44,7 @@ export async function execute(interaction: CommandInteraction) {
 
 	const applyButton = new ButtonBuilder()
 		.setStyle(ButtonStyle.Primary)
-		.setCustomId('apply')
+		.setCustomId(BUTTON_INTERACTION_IDS.APPLY)
 		.setLabel('Apply')
 		.setEmoji('📝');
 
@@ -51,7 +52,7 @@ export async function execute(interaction: CommandInteraction) {
 		.addComponents([applyButton]);
 
 	try {
-		await interaction.channel?.send({ embeds: [exampleEmbed], components: [row] });
+		await interaction.channel?.send({ embeds: [welcomeEmbed], components: [row] });
 		await interaction.reply('Pong!');
 		await interaction.deleteReply();
 	} catch (err) {

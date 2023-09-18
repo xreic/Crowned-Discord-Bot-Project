@@ -1,8 +1,10 @@
-import { BaseInteraction, Events } from 'discord.js';
-import { commands } from '../commands';
 import dayjs from 'dayjs';
-
-export const DISCORD_EPOCH = 1420070400000;
+import {
+	BaseInteraction,
+	Events,
+} from 'discord.js';
+import { commands } from '../commands';
+import { userIntendsToApply } from '../channel';
 
 export const name = Events.InteractionCreate;
 
@@ -15,7 +17,10 @@ export async function execute(interaction: BaseInteraction) {
 	} else if (interaction.isButton()) {
 		console.log('\nButton interaction');
 
+		await userIntendsToApply(interaction);
+
 		const userCreatedAt = dayjs(interaction.user.createdAt).unix();
 		await interaction.reply(`<t:${userCreatedAt}:F> <t:${userCreatedAt}:R>`);
+		await interaction.deleteReply();
 	}
 }
