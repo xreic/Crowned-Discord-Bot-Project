@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import {
 	ActionRowBuilder,
 	AttachmentBuilder,
@@ -39,7 +40,10 @@ What are your goals for this character and are you interested in liberation?
 Once you've completed everything, then go ahead and click on the **Call Staff** button above.
 `;
 
-async function provideMemberOrRolePermsForChannel(id: Snowflake, textChannel: TextChannel) {
+async function provideMemberOrRolePermsForChannel(
+	id: Snowflake,
+	textChannel: TextChannel,
+) {
 	await textChannel.permissionOverwrites.edit(id, {
 		ViewChannel: true,
 		SendMessages: true,
@@ -60,9 +64,12 @@ export async function createTextChannel(
 	await provideMemberOrRolePermsForChannel(serverMember.id, applicationTextChannel);
 	await provideMemberOrRolePermsForChannel(config.STAFF_ROLE_ID, applicationTextChannel);
 
+	const userCreatedAt = dayjs(serverMember.user.createdAt).unix();
+
 	const initMessage = new EmbedBuilder()
 		.setColor(0x0099ff)
-		.setTitle('Application Action Center');
+		.setTitle('Application Action Center')
+		.setDescription(`Account made on <t:${userCreatedAt}:F> <t:${userCreatedAt}:R>`);
 
 	const row = new ActionRowBuilder<ButtonBuilder>()
 		.addComponents([callButton, approveButton, rejectButton, archiveButton]);

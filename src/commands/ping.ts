@@ -56,6 +56,7 @@ export async function execute(interaction: CommandInteraction) {
 		await interaction.reply('Pong!');
 		await interaction.deleteReply();
 	} catch (err) {
-		await interaction.reply('Command failed.');
+		console.error('\n\nPing');
+		console.error(err);
 	}
 }
