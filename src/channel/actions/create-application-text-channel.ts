@@ -39,6 +39,9 @@ How actively are you playing/progressing this character?
 
 
 What are your goals for this character and are you interested in liberation?
+
+
+Were you referred by someone currently in the guild? If so, then please provide their IGN.
 \`\`\`
 
 Once you've completed everything, then go ahead and click on the **Call Staff** button above.
