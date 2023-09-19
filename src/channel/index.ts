@@ -1,6 +1,6 @@
 import { ButtonInteraction, CategoryChannel, GuildMember } from 'discord.js';
 import { config } from '../config';
-import { createTextChannel } from './create';
+import { createApplicationTextChannel } from './actions/create-application-text-channel';
 
 export async function userIntendsToApply(interaction: ButtonInteraction) {
 	const serverMember: GuildMember = interaction.member as GuildMember;
@@ -11,7 +11,7 @@ export async function userIntendsToApply(interaction: ButtonInteraction) {
 		) as CategoryChannel;
 
 	try {
-		await createTextChannel(serverMember, applicationCategory);
+		await createApplicationTextChannel(serverMember, applicationCategory);
 	} catch (err) {
 		await interaction.reply(`Failed to create new application. <@&${config.STAFF_ROLE_ID}>`);
 		console.error('\n\nuserIntendsToApply');

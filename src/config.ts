@@ -11,6 +11,7 @@ interface IConfig {
 	APPLICATIONS_CATEGORY_ID: string;
 	ARCHIVED_CATEGORY_ID: string;
 	STAFF_ROLE_ID: string;
+	DISCORD_SERVER_LINK: string;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
 	APPLICATIONS_CATEGORY_ID,
 	ARCHIVED_CATEGORY_ID,
 	STAFF_ROLE_ID,
+	DISCORD_SERVER_LINK,
 } = process.env;
 
 const ENV_VARS = [
@@ -31,6 +33,7 @@ const ENV_VARS = [
 	APPLICATIONS_CATEGORY_ID,
 	ARCHIVED_CATEGORY_ID,
 	STAFF_ROLE_ID,
+	DISCORD_SERVER_LINK,
 ];
 
 if (ENV_VARS.some((e) => !e)) {
@@ -52,4 +55,6 @@ export const config: IConfig = {
 	ARCHIVED_CATEGORY_ID,
 	// @ts-ignore
 	STAFF_ROLE_ID,
+	// @ts-ignore
+	DISCORD_SERVER_LINK,
 };

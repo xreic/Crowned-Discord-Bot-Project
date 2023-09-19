@@ -10,17 +10,17 @@ import {
 	Snowflake,
 	TextChannel,
 } from 'discord.js';
-import { config } from '../config';
+import { config } from '../../config';
 import {
 	approveButton,
 	archiveButton,
 	callButton,
 	rejectButton,
-} from './buttons';
+} from '../buttons';
 import {
 	moveToApplicationsCategory,
 	provideApplicantAndStaffPermsForTextChannel,
-} from './utils';
+} from '../utils';
 
 const legionGridScreenshotURL = 'https://cdn.discordapp.com/attachments/1058573962516369419/1153198266293424159/image.png';
 
@@ -44,7 +44,7 @@ What are your goals for this character and are you interested in liberation?
 Once you've completed everything, then go ahead and click on the **Call Staff** button above.
 `;
 
-export async function createTextChannel(
+export async function createApplicationTextChannel(
 	serverMember: GuildMember,
 	category: CategoryChannel,
 ): Promise<TextChannel> {
