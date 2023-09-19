@@ -29,7 +29,7 @@ export async function execute(interaction: BaseInteraction) {
 			try {
 				await interaction.reply(`Calling <@&${config.STAFF_ROLE_ID}>`);
 			} catch (err) {
-				console.error('\n\BUTTON_INTERACTION_IDS.CALL');
+				console.error('\n\nBUTTON_INTERACTION_IDS.CALL');
 				console.error(err);
 			}
 		}
