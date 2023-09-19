@@ -20,7 +20,7 @@ import {
 import {
 	moveToApplicationsCategory,
 	provideApplicantAndStaffPermsForTextChannel,
-} from '../events/utils';
+} from './utils';
 
 const legionGridScreenshotURL = 'https://cdn.discordapp.com/attachments/1058573962516369419/1153198266293424159/image.png';
 
