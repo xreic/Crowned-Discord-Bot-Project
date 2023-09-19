@@ -3,11 +3,6 @@ import { config } from '../config';
 import { createTextChannel } from './create';
 
 export async function userIntendsToApply(interaction: ButtonInteraction) {
-	console.log('\nuserIntendsToApply');
-
-	const buttonId = interaction.customId;
-	console.log(`buttonId: ${buttonId}`);
-
 	const serverMember: GuildMember = interaction.member as GuildMember;
 
 	const applicationCategory: CategoryChannel =

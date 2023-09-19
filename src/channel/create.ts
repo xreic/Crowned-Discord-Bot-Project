@@ -17,6 +17,10 @@ import {
 	callButton,
 	rejectButton,
 } from './buttons';
+import {
+	moveToApplicationsCategory,
+	provideApplicantAndStaffPermsForTextChannel,
+} from '../events/utils';
 
 const legionGridScreenshotURL = 'https://cdn.discordapp.com/attachments/1058573962516369419/1153198266293424159/image.png';
 
@@ -28,7 +32,7 @@ There are a few things that we'll need from you before we start the application 
 2. A screenshot of your Legion Grid. Please do not change the character display ribbon page. See the example below.
 3. Complete the questionnaire. (Click the copy button at the top-right of the block below.)
 \`\`\`
-Is this character a main or second main? 
+Is this character a main or second main?
 
 
 How actively are you playing/progressing this character?
@@ -40,16 +44,6 @@ What are your goals for this character and are you interested in liberation?
 Once you've completed everything, then go ahead and click on the **Call Staff** button above.
 `;
 
-async function provideMemberOrRolePermsForChannel(
-	id: Snowflake,
-	textChannel: TextChannel,
-) {
-	await textChannel.permissionOverwrites.edit(id, {
-		ViewChannel: true,
-		SendMessages: true,
-	});
-}
-
 export async function createTextChannel(
 	serverMember: GuildMember,
 	category: CategoryChannel,
@@ -59,10 +53,11 @@ export async function createTextChannel(
 		type: ChannelType.GuildText,
 	});
 
-	await applicationTextChannel.setParent(config.APPLICATIONS_CATEGORY_ID);
-	await applicationTextChannel.setPosition(0);
-	await provideMemberOrRolePermsForChannel(serverMember.id, applicationTextChannel);
-	await provideMemberOrRolePermsForChannel(config.STAFF_ROLE_ID, applicationTextChannel);
+	await moveToApplicationsCategory(applicationTextChannel);
+	await provideApplicantAndStaffPermsForTextChannel(
+		[serverMember.id, config.STAFF_ROLE_ID],
+		applicationTextChannel
+	);
 
 	const userCreatedAt = dayjs(serverMember.user.createdAt).unix();
 
