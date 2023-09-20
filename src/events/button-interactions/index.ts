@@ -6,6 +6,14 @@ import { config } from '../../config';
 import { BUTTON_INTERACTION_IDS } from '../../types';
 import { archiveApplicationTextChannel } from '../../channel/actions/archive-application-text-channel';
 
+async function reportError(interaction: ButtonInteraction, message: string, err: unknown) {
+	const errorTimestamp = dayjs().unix();
+	await interaction.reply(`<@${config.BOT_MANAGER_ID}> ${message}. Timestamp: ${errorTimestamp}`);
+
+	console.error(`Timestamp: ${errorTimestamp}`);
+	console.error(err);
+}
+
 export async function handleButtonInteractions(interaction: ButtonInteraction) {
 	console.log('\nButton interaction');
 	const buttonId = interaction.customId;
@@ -20,11 +28,7 @@ export async function handleButtonInteractions(interaction: ButtonInteraction) {
 			await createApplicationTextChannel(interaction, serverMember);
 
 		} catch (err) {
-			const errorTimestamp = dayjs().unix();
-			await interaction.reply(`<@${config.BOT_MANAGER_ID}> Failed to create new application. Timestamp: ${errorTimestamp}`);
-
-			console.error(`Timestamp: ${errorTimestamp}`);
-			console.error(err);
+			await reportError(interaction, 'Failed to create new application.', err);
 		}
 	} else if (buttonId === BUTTON_INTERACTION_IDS.CALL) {
 		/**
@@ -33,8 +37,7 @@ export async function handleButtonInteractions(interaction: ButtonInteraction) {
 		try {
 			await interaction.reply(`Calling <@&${config.STAFF_ROLE_ID}>`);
 		} catch (err) {
-			console.error('\n\nBUTTON_INTERACTION_IDS.CALL');
-			console.error(err);
+			await reportError(interaction, 'Failed to call for a staff member.', err);
 		}
 	} else if (buttonId === BUTTON_INTERACTION_IDS.APPROVE) {
 		/**
@@ -43,8 +46,7 @@ export async function handleButtonInteractions(interaction: ButtonInteraction) {
 		try {
 			await approveApplication(interaction);
 		} catch (err) {
-			console.error('\n\nBUTTON_INTERACTION_IDS.APPROVE');
-			console.error(err);
+			await reportError(interaction, 'Failed to approve application.', err);
 		}
 	} else if (buttonId === BUTTON_INTERACTION_IDS.ARCHIVE) {
 		/**
@@ -53,8 +55,7 @@ export async function handleButtonInteractions(interaction: ButtonInteraction) {
 		try {
 			await archiveApplicationTextChannel(interaction);
 		} catch (err) {
-			console.error('\n\nBUTTON_INTERACTION_IDS.ARCHIVE');
-			console.error(err);
+			await reportError(interaction, 'Failed to archive application.', err);
 		}
 	}
 }

@@ -65,6 +65,7 @@ export async function createApplicationTextChannel(
 	});
 
 	await moveToApplicationsCategory(applicationTextChannel);
+
 	await provideApplicantAndStaffPermsForTextChannel(
 		[serverMember.id, config.STAFF_ROLE_ID],
 		applicationTextChannel
