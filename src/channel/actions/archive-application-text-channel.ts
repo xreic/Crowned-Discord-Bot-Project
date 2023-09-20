@@ -1,10 +1,23 @@
-import { ButtonInteraction } from 'discord.js';
+import { ButtonInteraction, GuildMember, TextChannel } from 'discord.js';
+import { archiveApplicationChannel, checkUserIsStaff } from '../utils';
+import { config } from '../../config';
 
 export async function archiveApplicationTextChannel(interaction: ButtonInteraction) {
-	// Satisfy the button interaction with a response.
-	await (await interaction.reply({ ephemeral: true, content: '.' })).delete();
+	const serverMember: GuildMember = interaction.member as GuildMember;
+	const serverMemberIsStaff = checkUserIsStaff(serverMember);
 
-	await interaction.message.channel.send({
-		content: `<@${interaction.member?.user.id}> this feature has not been implemented yet.`,
-	});
+	if (!serverMemberIsStaff) {
+		return await interaction.reply({
+			ephemeral: true,
+			content: `<@${serverMember.id}> only staff members can archive applications.`,
+		});
+	}
+
+	const textChannel = interaction.channel as TextChannel;
+
+	if (textChannel.parentId === config.ARCHIVED_CATEGORY_ID) {
+		await interaction.message.channel.send('This channel has already been archived.');
+	} else {
+		await archiveApplicationChannel(interaction.channel as TextChannel);
+	}
 }

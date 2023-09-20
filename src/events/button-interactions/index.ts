@@ -5,6 +5,7 @@ import { createApplicationTextChannel } from '../../channel/actions/create-appli
 import { config } from '../../config';
 import { BUTTON_INTERACTION_IDS } from '../../types';
 import { archiveApplicationTextChannel } from '../../channel/actions/archive-application-text-channel';
+import { satisfyButtonInteraction } from '../../channel/utils';
 
 async function reportError(interaction: ButtonInteraction, message: string, err: unknown) {
 	const errorTimestamp = dayjs().unix();
@@ -44,6 +45,7 @@ export async function handleButtonInteractions(interaction: ButtonInteraction) {
 		 * Handle staff approving an application.
 		 */
 		try {
+			await satisfyButtonInteraction(interaction);
 			await approveApplication(interaction);
 		} catch (err) {
 			await reportError(interaction, 'Failed to approve application.', err);
@@ -51,8 +53,9 @@ export async function handleButtonInteractions(interaction: ButtonInteraction) {
 	} else if (buttonId === BUTTON_INTERACTION_IDS.ARCHIVE) {
 		/**
 		 * Handle staff archiving an application.
-		 */
+		*/
 		try {
+			await satisfyButtonInteraction(interaction);
 			await archiveApplicationTextChannel(interaction);
 		} catch (err) {
 			await reportError(interaction, 'Failed to archive application.', err);
