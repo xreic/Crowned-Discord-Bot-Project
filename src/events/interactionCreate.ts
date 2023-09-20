@@ -1,9 +1,6 @@
 import { BaseInteraction, Events } from 'discord.js';
-import { userIntendsToApply } from '../channel';
 import { commands } from '../commands';
-import { config } from '../config';
-import { BUTTON_INTERACTION_IDS } from '../types';
-import { approveApplication } from '../channel/actions/approve-application';
+import { handleButtonInteractions } from './button-interactions';
 
 export const name = Events.InteractionCreate;
 
@@ -14,71 +11,6 @@ export async function execute(interaction: BaseInteraction) {
 			commands[commandName as keyof typeof commands].execute(interaction);
 		}
 	} else if (interaction.isButton()) {
-		console.log('\nButton interaction');
-		const buttonId = interaction.customId;
-
-		if (buttonId === BUTTON_INTERACTION_IDS.APPLY) {
-			/**
-			 * Handle user applying to the guild.
-			 */
-			try {
-				await interaction.reply({ ephemeral: true, content: 'Give us a second as we setup for your application.' });
-				await userIntendsToApply(interaction);
-
-			} catch (err) {
-				console.error('\n\nBUTTON_INTERACTION_IDS.APPLY');
-				console.error(err);
-			}
-		} else if (buttonId === BUTTON_INTERACTION_IDS.CALL) {
-			/**
-			 * Handle user requesting for a staff member.
-			 */
-			try {
-				await interaction.reply(`Calling <@&${config.STAFF_ROLE_ID}>`);
-			} catch (err) {
-				console.error('\n\nBUTTON_INTERACTION_IDS.CALL');
-				console.error(err);
-			}
-		} else if (buttonId === BUTTON_INTERACTION_IDS.APPROVE) {
-			/**
-			 * Handle staff approving an application.
-			 */
-			try {
-				await approveApplication(interaction);
-			} catch (err) {
-				console.error('\n\nBUTTON_INTERACTION_IDS.APPROVE');
-				console.error(err);
-			}
-		} else if (buttonId === BUTTON_INTERACTION_IDS.REJECT) {
-			/**
-			 * Handle staff rejecting an application.
-			 */
-			try {
-				// Satisfy the button interaction with a response.
-				await (await interaction.reply({ ephemeral: true, content: '.' })).delete();
-
-				await interaction.message.channel.send({
-					content: `<@${interaction.member?.user.id}> this feature has not been implemented yet.`,
-				});
-			} catch (err) {
-				console.error('\n\nBUTTON_INTERACTION_IDS.REJECT');
-				console.error(err);
-			}
-		} else if (buttonId === BUTTON_INTERACTION_IDS.ARCHIVE) {
-			/**
-			 * Handle staff archiving an application.
-			 */
-			try {
-				// Satisfy the button interaction with a response.
-				await (await interaction.reply({ ephemeral: true, content: '.' })).delete();
-
-				await interaction.message.channel.send({
-					content: `<@${interaction.member?.user.id}> this feature has not been implemented yet.`,
-				});
-			} catch (err) {
-				console.error('\n\nBUTTON_INTERACTION_IDS.ARCHIVE');
-				console.error(err);
-			}
-		}
+		await handleButtonInteractions(interaction);
 	}
 }

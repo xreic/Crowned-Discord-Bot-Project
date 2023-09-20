@@ -10,6 +10,7 @@ interface IConfig {
 	RULES_CHANNEL_ID: string;
 	APPLICATIONS_CATEGORY_ID: string;
 	ARCHIVED_CATEGORY_ID: string;
+	BOT_MANAGER_ID: string;
 	STAFF_ROLE_ID: string;
 	DISCORD_SERVER_LINK: string;
 }
@@ -21,6 +22,7 @@ const {
 	RULES_CHANNEL_ID,
 	APPLICATIONS_CATEGORY_ID,
 	ARCHIVED_CATEGORY_ID,
+	BOT_MANAGER_ID,
 	STAFF_ROLE_ID,
 	DISCORD_SERVER_LINK,
 } = process.env;
@@ -32,6 +34,7 @@ const ENV_VARS = [
 	RULES_CHANNEL_ID,
 	APPLICATIONS_CATEGORY_ID,
 	ARCHIVED_CATEGORY_ID,
+	BOT_MANAGER_ID,
 	STAFF_ROLE_ID,
 	DISCORD_SERVER_LINK,
 ];
@@ -53,6 +56,8 @@ export const config: IConfig = {
 	APPLICATIONS_CATEGORY_ID,
 	// @ts-ignore
 	ARCHIVED_CATEGORY_ID,
+	// @ts-ignore
+	BOT_MANAGER_ID,
 	// @ts-ignore
 	STAFF_ROLE_ID,
 	// @ts-ignore

@@ -3,7 +3,7 @@ import { config } from './config';
 import { events } from './events';
 
 const client = new Client({
-  intents: ['Guilds', 'GuildMessages', 'DirectMessages'],
+	intents: ['Guilds', 'GuildMessages', 'DirectMessages'],
 });
 
 const eventKeys = Object.keys(events);

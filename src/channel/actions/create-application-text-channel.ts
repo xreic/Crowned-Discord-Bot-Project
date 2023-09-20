@@ -3,6 +3,7 @@ import {
 	ActionRowBuilder,
 	AttachmentBuilder,
 	ButtonBuilder,
+	ButtonInteraction,
 	CategoryChannel,
 	ChannelType,
 	EmbedBuilder,
@@ -15,7 +16,6 @@ import {
 	approveButton,
 	archiveButton,
 	callButton,
-	rejectButton,
 } from '../buttons';
 import {
 	moveToApplicationsCategory,
@@ -51,10 +51,15 @@ Once you've completed everything, then go ahead and click on the **Call Staff** 
 `;
 
 export async function createApplicationTextChannel(
+	interaction: ButtonInteraction,
 	serverMember: GuildMember,
-	category: CategoryChannel,
 ): Promise<TextChannel> {
-	const applicationTextChannel = await category.guild.channels.create({
+	const applicationCategory: CategoryChannel =
+		serverMember.guild.channels.cache.get(
+			config.APPLICATIONS_CATEGORY_ID,
+		) as CategoryChannel;
+
+	const applicationTextChannel = await applicationCategory.guild.channels.create({
 		name: serverMember.id,
 		type: ChannelType.GuildText,
 	});
@@ -73,7 +78,7 @@ export async function createApplicationTextChannel(
 		.setDescription(`Account made on <t:${userCreatedAt}:F> <t:${userCreatedAt}:R>`);
 
 	const row = new ActionRowBuilder<ButtonBuilder>()
-		.addComponents([callButton, approveButton, rejectButton, archiveButton]);
+		.addComponents([callButton, approveButton, archiveButton]);
 
 	await applicationTextChannel.send({ embeds: [initMessage], components: [row] });
 
