@@ -49,6 +49,36 @@ export async function execute(interaction: BaseInteraction) {
 				console.error('\n\nBUTTON_INTERACTION_IDS.APPROVE');
 				console.error(err);
 			}
+		} else if (buttonId === BUTTON_INTERACTION_IDS.REJECT) {
+			/**
+			 * Handle staff rejecting an application.
+			 */
+			try {
+				// Satisfy the button interaction with a response.
+				await (await interaction.reply({ ephemeral: true, content: '.' })).delete();
+
+				await interaction.message.channel.send({
+					content: `<@${interaction.member?.user.id}> this feature has not been implemented yet.`,
+				});
+			} catch (err) {
+				console.error('\n\nBUTTON_INTERACTION_IDS.REJECT');
+				console.error(err);
+			}
+		} else if (buttonId === BUTTON_INTERACTION_IDS.ARCHIVE) {
+			/**
+			 * Handle staff archiving an application.
+			 */
+			try {
+				// Satisfy the button interaction with a response.
+				await (await interaction.reply({ ephemeral: true, content: '.' })).delete();
+
+				await interaction.message.channel.send({
+					content: `<@${interaction.member?.user.id}> this feature has not been implemented yet.`,
+				});
+			} catch (err) {
+				console.error('\n\nBUTTON_INTERACTION_IDS.ARCHIVE');
+				console.error(err);
+			}
 		}
 	}
 }

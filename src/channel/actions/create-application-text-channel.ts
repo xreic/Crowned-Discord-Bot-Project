@@ -42,6 +42,9 @@ What are your goals for this character and are you interested in liberation?
 
 
 Were you referred by someone currently in the guild? If so, then please provide their IGN.
+
+
+If you were in the guild in the past, then please provide the IGN of the character that was in the guild.
 \`\`\`
 
 Once you've completed everything, then go ahead and click on the **Call Staff** button above.

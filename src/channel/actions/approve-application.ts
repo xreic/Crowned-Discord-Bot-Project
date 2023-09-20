@@ -21,7 +21,7 @@ export async function approveApplication(interaction: ButtonInteraction) {
 	}
 
 	// Satisfy the button interaction with a response.
-	await (await interaction.reply({ ephemeral: true, content: '1' })).delete();
+	await (await interaction.reply({ ephemeral: true, content: '.' })).delete();
 
 	await interaction.message.channel.send({
 		content: approvalMessage(serverMember.id),
