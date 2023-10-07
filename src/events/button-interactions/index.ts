@@ -16,7 +16,6 @@ async function reportError(interaction: ButtonInteraction, message: string, err:
 }
 
 export async function handleButtonInteractions(interaction: ButtonInteraction) {
-	console.log('\nButton interaction');
 	const buttonId = interaction.customId;
 	const serverMember: GuildMember = interaction.member as GuildMember;
 

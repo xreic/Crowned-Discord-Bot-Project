@@ -1,4 +1,4 @@
-import { ButtonInteraction, GuildMember, Snowflake } from 'discord.js';
+import { ButtonInteraction, GuildMember, Snowflake, TextChannel } from 'discord.js';
 import { config } from '../../config';
 import { checkUserIsStaff } from '../utils';
 
@@ -12,6 +12,8 @@ export async function approveApplication(interaction: ButtonInteraction) {
 	const serverMember: GuildMember = interaction.member as GuildMember;
 	const serverMemberIsStaff = checkUserIsStaff(serverMember);
 
+	const { name: applicantUserId } = await serverMember.guild.channels.fetch(interaction.channelId) as TextChannel;
+
 	if (!serverMemberIsStaff) {
 		return await interaction.reply({
 			ephemeral: true,
@@ -20,6 +22,6 @@ export async function approveApplication(interaction: ButtonInteraction) {
 	}
 
 	await interaction.message.channel.send({
-		content: approvalMessage(serverMember.id),
+		content: approvalMessage(applicantUserId),
 	});
 }
