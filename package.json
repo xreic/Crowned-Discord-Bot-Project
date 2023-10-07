@@ -9,7 +9,8 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsup src/index.ts --minify",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "$(yarn bin)/pm2 install typescript"
+    "postinstall": "$(yarn bin)/pm2 install typescript",
+    "pm2:dev": "$(yarn bin)/pm2 start dist/index.cjs --name discord-bot --watch --restart-delay 10000 --log --time"
   },
   "author": "",
   "license": "MIT",
